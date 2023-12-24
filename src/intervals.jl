@@ -1,3 +1,5 @@
+
+
 @enum IntervalQuality Perfect Augmented Diminished Major Minor
 
 # distance is 0 for unison, 1 for second, etc.
@@ -86,4 +88,28 @@ function interval(n1::Pitch, n2::Pitch)
 end
 
 
-interval(M.C4, M.C6)
+tone(interval::Interval) = interval.distance
+
+semitone(interval::Interval) = 
+    interval_semitones[interval.distance] + interval_quality_semitones[interval.quality]
+
+function add_interval(p::Pitch, interval::Interval)
+    new_tone = tone(p) + tone(interval)
+
+    new_note_class = NoteClass(new_tone % 7)
+    new_octave = new_tone ÷ 7
+
+    new_semitone = semitone(p) + semitone(interval)
+    new_note = find_accidental(new_semitone % 12, new_note_class)
+
+    new_pitch = Pitch(new_note, new_octave)
+
+    return new_pitch
+end
+
+const Perfect_4th = Interval(3, Perfect)
+const Major_3rd = Interval(2, Major)
+const Major_3rd = Interval(2, Major)
+
+
+# add_interval(M.C4, Interval(2, Minor))

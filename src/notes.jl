@@ -1,5 +1,5 @@
 
-## Names and semitone mappings
+# often called a "pitch class"
 @enum NoteClass C=0 D E F G A B
 
 const note_names = instances(NoteClass)
@@ -65,4 +65,39 @@ end
 
 octave(pitch::Pitch) = pitch.octave
 
+tone(note::NoteClass) = Int(note)
+tone(note::Note) = tone(note.noteclass)
+tone(pitch::Pitch) = tone(pitch.note) + 7 * pitch.octave
+
+
+## Semitones
+semitone(accidental::Accidental) = accidental_semitones[accidental]
+semitone(note::NoteClass) = note_semitones[note]
+
+semitone(note::Note) = semitone(note.noteclass) + semitone(note.accidental)
+
+semitone(pitch::Pitch) = semitone(pitch.note) + 12 * pitch.octave
+
+"Treats C0 as semitone 0"
+function semitone(pitch::Pitch)
+    return semitone(pitch.note) + 12*pitch.octave
+end
+
+
+function find_accidental(which_semitone, noteclass)
+    basic_semitone = semitone(noteclass)
+
+    distance = which_semitone - basic_semitone
+    if abs(distance) > 2
+        distance = mod(distance, 12)  # wrap round
+    end
+
+    accidental = semitone_to_accidental[distance]
+
+    return Note(noteclass, accidental)
+end
+
+
 const middle_C = C4
+
+semitone(middle_C) 
