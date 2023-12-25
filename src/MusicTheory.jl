@@ -7,9 +7,12 @@ export Pitch, Note, Accidental, NoteClass,
     note_names
 
 export Interval, IntervalType, Major, Minor, Perfect, Augmented, Diminished,
-    add_interval, tone, semitone
+    add_interval, tone, semitone, interval
+
+export Major_2nd, Minor_2nd, Major_3rd, Minor_3rd, Perfect_4th, Perfect_5th,
+    Major_6th, Minor_6th, Major_7th, Minor_7th, Octave
 
 include("notes.jl")
 include("intervals.jl")
-
+include("scales.jl")
 end

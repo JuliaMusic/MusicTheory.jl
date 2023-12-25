@@ -9,6 +9,8 @@ struct Interval
     quality::IntervalQuality
 end
 
+interval(distance, quality) = Interval(distance - 1, quality)
+
 function interval_name(distance::Int)
     if distance == 0
         return "unison"
@@ -107,9 +109,14 @@ function add_interval(p::Pitch, interval::Interval)
     return new_pitch
 end
 
+Base.:(+)(p::Pitch, interval::Interval) = add_interval(p, interval)
+
+const Minor_2nd = Interval(1, Minor)
+const Major_2nd = Interval(1, Major)
+
+const Major_3rd = Interval(2, Major)
+const Major_3rd = Interval(2, Major)
 const Perfect_4th = Interval(3, Perfect)
-const Major_3rd = Interval(2, Major)
-const Major_3rd = Interval(2, Major)
 
 
 # add_interval(M.C4, Interval(2, Minor))
