@@ -12,6 +12,8 @@ export Interval, IntervalType, Major, Minor, Perfect, Augmented, Diminished,
 export Major_2nd, Minor_2nd, Major_3rd, Minor_3rd, Perfect_4th, Perfect_5th,
     Major_6th, Minor_6th, Major_7th, Minor_7th, Octave
 
+export major_scale, natural_minor_scale, melodic_minor_scale, harmonic_minor_scale
+
 include("notes.jl")
 include("intervals.jl")
 include("scales.jl")

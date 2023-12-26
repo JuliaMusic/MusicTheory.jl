@@ -43,7 +43,7 @@ interval_quality_semitones = Dict(
 semitone(interval::Interval) =
     interval_semitones[interval.distance] + interval_quality_semitones[interval.quality]
 
-Base.:(<=)(n1::Pitch, n2::Pitch) = M.semitone(n1) <= M.semitone(n2)
+Base.:(<=)(n1::Pitch, n2::Pitch) = semitone(n1) <= semitone(n2)
 
 
 
@@ -59,7 +59,7 @@ function interval(n1::Pitch, n2::Pitch)
 
     total_note_distance = note_distance + octave_distance
 
-    semitone_distance = (M.semitone(n2) - M.semitone(n1)) % 12
+    semitone_distance = (semitone(n2) - semitone(n1)) % 12
 
     base_interval_semitone = interval_semitones[total_note_distance %7]
     alteration_distance = semitone_distance - base_interval_semitone
@@ -95,21 +95,31 @@ tone(interval::Interval) = interval.distance
 semitone(interval::Interval) = 
     interval_semitones[interval.distance] + interval_quality_semitones[interval.quality]
 
-function add_interval(p::Pitch, interval::Interval)
-    new_tone = tone(p) + tone(interval)
+function add_interval(n::Note, interval::Interval)
+    new_tone = (tone(n) + tone(interval)) % 7
 
-    new_note_class = NoteClass(new_tone % 7)
+    new_note_class = NoteClass(new_tone)
     new_octave = new_tone ÷ 7
 
-    new_semitone = semitone(p) + semitone(interval)
+    new_semitone = semitone(n) + semitone(interval)
     new_note = find_accidental(new_semitone % 12, new_note_class)
 
+    return new_note
+end
+
+
+function add_interval(p::Pitch, interval::Interval)
+    new_tone = tone(p) + tone(interval)
+    new_octave = new_tone ÷ 7
+
+    new_note = add_interval(p.note, interval)
     new_pitch = Pitch(new_note, new_octave)
 
     return new_pitch
 end
 
 Base.:(+)(p::Pitch, interval::Interval) = add_interval(p, interval)
+Base.:(+)(n::Note, interval::Interval) = add_interval(n, interval)
 
 const Minor_2nd = Interval(1, Minor)
 const Major_2nd = Interval(1, Major)

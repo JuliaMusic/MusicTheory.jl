@@ -100,6 +100,7 @@ function find_accidental(which_semitone, noteclass)
     return Note(noteclass, accidental)
 end
 
+Note(n::Note) = n
 
 const middle_C = C4
 
