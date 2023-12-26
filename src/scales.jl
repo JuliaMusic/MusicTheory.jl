@@ -1,5 +1,3 @@
-
-
 struct Scale{T<:Union{Note, Pitch}}
     tonic::T
     steps::Dict{Note, Interval}
@@ -17,23 +15,20 @@ struct Scale{T<:Union{Note, Pitch}}
     end
 end
 
-# Scale2(M.C4, major_scale)
 
-Base.iterate(s::Scale{T}) where {T} = s.tonic
-
-function Base.iterate(s::Scale{T}, p::T) where {T}
+function Base.iterate(s::Scale{T}, p::T = s.tonic) where {T <: Union{Note, Pitch}}
     n = Note(p)
 
     !haskey(s.steps, n) && error("Note $n not in scale")
 
-    step = s.steps[n]
-    new_pitch = p + step
+    step = s.steps[n]  # an interval
+    new_p = p + step  # a note or a pitch, according to the type of p
 
-    return p, new_pitch
+    return (p, new_p)
 end
 
 Base.IteratorSize(::Type{Scale{T}}) where {T} = Base.IsInfinite()
-Base.IteratorEltype(::Type{Scale{T}}) where {T} = Base.HasEltype() 
+Base.IteratorEltype(::Type{Scale{T}}) where {T} = Base.HasEltype()
 Base.eltype(::Type{Scale{T}}) where {T} = T
 
 
@@ -77,3 +72,10 @@ end
 
 
 # iterate(s)
+
+const M = MusicTheory
+s = Scale(M.C4, major_scale)
+
+# notes = Base.Iterators.take(s, 8) |> collect
+
+iterate(s, C4)

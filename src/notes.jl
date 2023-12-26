@@ -76,15 +76,11 @@ semitone(note::NoteClass) = note_semitones[note]
 
 semitone(note::Note) = semitone(note.noteclass) + semitone(note.accidental)
 
+"Treats C0 as semitone 0"
 semitone(pitch::Pitch) = semitone(pitch.note) + 12 * pitch.octave
 
 NoteClass(pitch::Pitch) = pitch.note.noteclass
 Note(pitch::Pitch) = pitch.note
-
-"Treats C0 as semitone 0"
-function semitone(pitch::Pitch)
-    return semitone(pitch.note) + 12*pitch.octave
-end
 
 
 function find_accidental(which_semitone, noteclass)

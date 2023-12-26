@@ -92,8 +92,6 @@ end
 
 tone(interval::Interval) = interval.distance
 
-semitone(interval::Interval) = 
-    interval_semitones[interval.distance] + interval_quality_semitones[interval.quality]
 
 function add_interval(n::Note, interval::Interval)
     new_tone = (tone(n) + tone(interval)) % 7
