@@ -9,7 +9,7 @@ struct Interval
     quality::IntervalQuality
 end
 
-interval(distance, quality) = Interval(distance - 1, quality)
+# interval(distance, quality) = Interval(distance - 1, quality)
 
 function interval_name(distance::Int)
     if distance == 0
@@ -43,7 +43,6 @@ interval_quality_semitones = Dict(
 semitone(interval::Interval) =
     interval_semitones[interval.distance] + interval_quality_semitones[interval.quality]
 
-Base.:(<=)(n1::Pitch, n2::Pitch) = semitone(n1) <= semitone(n2)
 
 
 
@@ -63,10 +62,6 @@ function interval(n1::Pitch, n2::Pitch)
 
     base_interval_semitone = interval_semitones[total_note_distance %7]
     alteration_distance = semitone_distance - base_interval_semitone
-
-
-
-    @show note_distance, total_note_distance, semitone_distance, base_interval_semitone, alteration_distance
 
     if abs(note_distance) + 1 ∈ (1, 4, 5)
         if alteration_distance == 0
@@ -89,9 +84,9 @@ function interval(n1::Pitch, n2::Pitch)
     end
 end
 
+interval( (n1, n2) ) = interval(n1, n2)
 
 tone(interval::Interval) = interval.distance
-
 
 function add_interval(n::Note, interval::Interval)
     new_tone = (tone(n) + tone(interval)) % 7

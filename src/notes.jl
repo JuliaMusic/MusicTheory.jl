@@ -100,4 +100,6 @@ Note(n::Note) = n
 
 const middle_C = C4
 
-semitone(middle_C) 
+
+Base.isless(n1::Pitch, n2::Pitch) = semitone(n1) < semitone(n2)
+
