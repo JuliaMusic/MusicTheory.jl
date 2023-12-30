@@ -1,8 +1,9 @@
 
+# often called a "pitch class"
+@enum NoteClass C=0 D E F G A B
+
 # mappings from note names to semitones:
-const note_names = [:C, :D, :E, :F, :G, :A, :B]
-const note_semitones = Dict(:C => 0, :D => 2, :E => 4, :F => 5, :G => 7, :A => 9, :B => 11)
-const note_to_tone = Dict(v => k for (k, v) in enumerate(note_names))
+const note_semitones = Dict(C => 0, D => 2, E => 4, F => 5, G => 7, A => 9, B => 11)
 
 ## Accidentals
 @enum Accidental 𝄫 ♭ ♮ ♯ 𝄪
@@ -83,35 +84,3 @@ PitchClass(n::PitchClass) = n
 Base.isless(n1::Pitch, n2::Pitch) = semitone(n1) < semitone(n2)
 
 
-
-
-# define Julia objects for pitch classes:
-
-module NoteNames
-
-using MusicTheory
-using MusicTheory: note_names
-
-export
-    C, D, E, F, G, A, B,
-    C♮, D♮, E♮, F♮, G♮, A♮, B♮,
-    C♯, D♯, E♯, F♯, G♯, A♯, B♯,
-    C♭, D♭, E♭, F♭, G♭, A♭, B♭,
-    C𝄫, D𝄫, E𝄫, F𝄫, G𝄫, A𝄫, B𝄫,
-    C𝄪, D𝄪, E𝄪, F𝄪, G𝄪, A𝄪, B𝄪,
-    middle_C
-
-for name in note_names, accidental in instances(Accidental)
-    note = Symbol(name, accidental)
-
-    @eval $(note) = PitchClass($(Meta.quot(name)), $(accidental))
-
-    if accidental == ♮
-        @eval $(Symbol(name)) = PitchClass($(Meta.quot(name)), $(accidental))
-    end
-end
-
-const middle_C = C[4]
-
-
-end
