@@ -2,13 +2,8 @@
 # often called a "pitch class"
 @enum NoteClass C=0 D E F G A B
 
-const note_names = instances(NoteClass)
-const scale_grades = Dict(name => value - 1 for (value, name) in enumerate(note_names))
-
 # mappings from note names to semitones:
 const note_semitones = Dict(C => 0, D => 2, E => 4, F => 5, G => 7, A => 9, B => 11)
-const semitone_to_note = Dict(v => k for (k, v) in note_semitones)
-
 
 ## Accidentals
 @enum Accidental 𝄫 ♭ ♮ ♯ 𝄪
@@ -102,4 +97,5 @@ const middle_C = C4
 
 
 Base.isless(n1::Pitch, n2::Pitch) = semitone(n1) < semitone(n2)
+
 
