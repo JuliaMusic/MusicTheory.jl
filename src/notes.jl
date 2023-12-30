@@ -1,6 +1,8 @@
 
 # mappings from note names to semitones:
+const note_names = [:C, :D, :E, :F, :G, :A, :B]
 const note_semitones = Dict(:C => 0, :D => 2, :E => 4, :F => 5, :G => 7, :A => 9, :B => 11)
+const note_to_tone = Dict(v => k for (k, v) in enumerate(note_names))
 
 ## Accidentals
 @enum Accidental 𝄫 ♭ ♮ ♯ 𝄪
@@ -8,17 +10,17 @@ const accidental_semitones = Dict(𝄫 => -2, ♭ => -1, ♮ => 0, ♯ => 1, �
 const semitone_to_accidental = Dict(v => k for (k, v) in accidental_semitones)
 
 
-## PitchClasss
+
 struct PitchClass
     name::Symbol
     accidental::Accidental
 end
 
 # default is natural:
-# PitchClass(noteclass::NoteNames) = PitchClass(noteclass, ♮)
+PitchClass(name::Symbol) = PitchClass(name, ♮)
 # Base.convert(::Type{PitchClass}, noteclass::NoteNames) = PitchClass(noteclass, ♮)
 
-Base.show(io::IO, note::PitchClass) = print(io, note.class, note.accidental)
+subscript(i::Int) = '₀' + i
 
 "Scientific pitch notation, e.g. C4"
 struct Pitch
@@ -34,46 +36,28 @@ function Base.show(io::IO, class::PitchClass)
     end
 end
 
-Base.show(io::IO, pitch::Pitch) = print(io, pitch.class, pitch.octave)
-   
-PitchClass(C, ♮)
+Base.show(io::IO, pitch::Pitch) =
+    print(io, pitch.class, subscript(pitch.octave))
 
-Base.:*(note::NoteNames, accidental::Accidental) = PitchClass(note, accidental)
+Base.getindex(class::PitchClass, i::Int) = Pitch(class, i)
 
-for note in instances(NoteNames), accidental in instances(Accidental)
-    name = Symbol(note, accidental)
-
-    @eval $(name) = $(note) * $(accidental)
-end
-
-
-for note in instances(NoteNames), octave in 0:8
-    name = Symbol(note, octave)
-    @eval $(name) = Pitch($(note), $(octave))
-
-    for accidental in instances(Accidental)
-        name = Symbol(note, accidental, octave)
-        @eval $(name) = Pitch(PitchClass($(note), $(accidental)), $(octave))
-    end
-end
 
 octave(pitch::Pitch) = pitch.octave
 
-tone(note::NoteNames) = Int(note)
+tone(note::Symbol) = note_to_tone[note]
 tone(note::PitchClass) = tone(note.classclass)
 tone(pitch::Pitch) = tone(pitch.class) + 7 * pitch.octave
 
 
 ## Semitones
 semitone(accidental::Accidental) = accidental_semitones[accidental]
-semitone(note::NoteNames) = note_semitones[note]
+semitone(note::Symbol) = note_semitones[note]
 
 semitone(note::PitchClass) = semitone(note.classclass) + semitone(note.accidental)
 
 "Treats C0 as semitone 0"
 semitone(pitch::Pitch) = semitone(pitch.class) + 12 * pitch.octave
 
-NoteNames(pitch::Pitch) = pitch.class.classclass
 PitchClass(pitch::Pitch) = pitch.class
 
 
@@ -92,9 +76,40 @@ end
 
 PitchClass(n::PitchClass) = n
 
-const middle_C = C4
 
 
 Base.isless(n1::Pitch, n2::Pitch) = semitone(n1) < semitone(n2)
 
 
+
+
+# define Julia objects for pitch classes:
+
+module NoteNames
+
+using MusicTheory
+using MusicTheory: note_names
+
+export
+    C, D, E, F, G, A, B,
+    C♮, D♮, E♮, F♮, G♮, A♮, B♮,
+    C♯, D♯, E♯, F♯, G♯, A♯, B♯,
+    C♭, D♭, E♭, F♭, G♭, A♭, B♭,
+    C𝄫, D𝄫, E𝄫, F𝄫, G𝄫, A𝄫, B𝄫,
+    C𝄪, D𝄪, E𝄪, F𝄪, G𝄪, A𝄪, B𝄪,
+    middle_C
+
+for name in note_names, accidental in instances(Accidental)
+    note = Symbol(name, accidental)
+
+    @eval $(note) = PitchClass($(Meta.quot(name)), $(accidental))
+
+    if accidental == ♮
+        @eval $(Symbol(name)) = PitchClass($(Meta.quot(name)), $(accidental))
+    end
+end
+
+const middle_C = C[4]
+
+
+end
