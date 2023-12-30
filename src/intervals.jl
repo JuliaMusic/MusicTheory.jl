@@ -52,7 +52,7 @@ function interval(n1::Pitch, n2::Pitch)
         n1, n2 = n2, n1
     end
 
-    note_distance = Int(n2.note.noteclass) - Int(n1.note.noteclass)
+    note_distance = Int(n2.class.classclass) - Int(n1.class.classclass)
 
     octave_distance = 7 * (n2.octave - n1.octave)
 
@@ -88,10 +88,10 @@ interval( (n1, n2) ) = interval(n1, n2)
 
 tone(interval::Interval) = interval.distance
 
-function add_interval(n::Note, interval::Interval)
+function add_interval(n::PitchClass, interval::Interval)
     new_tone = (tone(n) + tone(interval)) % 7
 
-    new_note_class = NoteClass(new_tone)
+    new_note_class = NoteNames(new_tone)
     new_octave = new_tone ÷ 7
 
     new_semitone = semitone(n) + semitone(interval)
@@ -105,14 +105,14 @@ function add_interval(p::Pitch, interval::Interval)
     new_tone = tone(p) + tone(interval)
     new_octave = new_tone ÷ 7
 
-    new_note = add_interval(p.note, interval)
+    new_note = add_interval(p.class, interval)
     new_pitch = Pitch(new_note, new_octave)
 
     return new_pitch
 end
 
 Base.:(+)(p::Pitch, interval::Interval) = add_interval(p, interval)
-Base.:(+)(n::Note, interval::Interval) = add_interval(n, interval)
+Base.:(+)(n::PitchClass, interval::Interval) = add_interval(n, interval)
 
 const Minor_2nd = Interval(1, Minor)
 const Major_2nd = Interval(1, Major)

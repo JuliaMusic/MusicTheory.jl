@@ -1,6 +1,6 @@
 module MusicTheory
 
-export Pitch, Note, Accidental, NoteClass,
+export Pitch, PitchClass, Accidental, NoteNames,
     𝄫, ♭, ♮, ♯, 𝄪, C, D, E, F, G, A, B, C♮, D♮, E♮, F♮, G♮, A♮, B♮, C♯, D♯, E♯, F♯, G♯, A♯,
     B♯, C♭, D♭, E♭, F♭, G♭, A♭, B♭, C𝄫, D𝄫, E𝄫, F𝄫, G𝄫, A𝄫, B𝄫, C𝄪, D𝄪, E𝄪, F𝄪, G,
     note_names

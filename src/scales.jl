@@ -1,13 +1,13 @@
-struct Scale{T<:Union{Note, Pitch}}
+struct Scale{T<:Union{PitchClass, Pitch}}
     tonic::T
-    steps::Dict{Note, Interval}
+    steps::Dict{PitchClass, Interval}
 
     function Scale(tonic::T, steps::Vector{Interval}) where {T}
-        steps_dict = Dict{Note, Interval}()
+        steps_dict = Dict{PitchClass, Interval}()
 
         current = tonic
         for step in steps
-            steps_dict[Note(current)] = step
+            steps_dict[PitchClass(current)] = step
             current += step
         end
 
@@ -16,10 +16,10 @@ struct Scale{T<:Union{Note, Pitch}}
 end
 
 
-function Base.iterate(s::Scale{T}, p::T = s.tonic) where {T <: Union{Note, Pitch}}
-    n = Note(p)
+function Base.iterate(s::Scale{T}, p::T = s.tonic) where {T <: Union{PitchClass, Pitch}}
+    n = PitchClass(p)
 
-    !haskey(s.steps, n) && error("Note $n not in scale")
+    !haskey(s.steps, n) && error("PitchClass $n not in scale")
 
     step = s.steps[n]  # an interval
     new_p = p + step  # a note or a pitch, according to the type of p
