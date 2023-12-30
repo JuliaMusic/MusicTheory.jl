@@ -63,8 +63,8 @@ semitone(pitch::Pitch) = semitone(pitch.class) + 12 * pitch.octave
 PitchClass(pitch::Pitch) = pitch.class
 
 
-function find_accidental(which_semitone, noteclass)
-    basic_semitone = semitone(noteclass)
+function find_accidental(which_semitone, pitch_class)
+    basic_semitone = semitone(pitch_class)
 
     distance = which_semitone - basic_semitone
     if abs(distance) > 2
@@ -73,7 +73,7 @@ function find_accidental(which_semitone, noteclass)
 
     accidental = semitone_to_accidental[distance]
 
-    return PitchClass(noteclass, accidental)
+    return PitchClass(pitch_class, accidental)
 end
 
 PitchClass(n::PitchClass) = n

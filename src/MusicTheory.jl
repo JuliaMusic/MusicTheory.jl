@@ -17,5 +17,5 @@ export major_scale, natural_minor_scale, melodic_minor_scale, harmonic_minor_sca
 
 include("notes.jl")
 include("intervals.jl")
-# include("scales.jl")
+include("scales.jl")
 end

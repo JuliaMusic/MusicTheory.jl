@@ -44,15 +44,13 @@ semitone(interval::Interval) =
     interval_semitones[interval.distance] + interval_quality_semitones[interval.quality]
 
 
-
-
 # interval between two pitches:
-function interval(n1::Pitch, n2::Pitch)
+function Interval(n1::Pitch, n2::Pitch)
     if n2 <= n1
         n1, n2 = n2, n1
     end
 
-    note_distance = tone(n2) - tone(n1)
+    note_distance = tone(n2.class) - tone(n1.class)
 
     octave_distance = 7 * (n2.octave - n1.octave)
 
@@ -84,18 +82,18 @@ function interval(n1::Pitch, n2::Pitch)
     end
 end
 
-interval( (n1, n2) ) = interval(n1, n2)
+Interval( (n1, n2) ) = interval(n1, n2)
 
 tone(interval::Interval) = interval.distance
 
 function add_interval(n::PitchClass, interval::Interval)
     new_tone = (tone(n) + tone(interval)) % 7
 
-    new_note_class = NoteNames(new_tone)
+    new_pitch_class = note_names[new_tone + 1]
     new_octave = new_tone ÷ 7
 
     new_semitone = semitone(n) + semitone(interval)
-    new_note = find_accidental(new_semitone % 12, new_note_class)
+    new_note = find_accidental(new_semitone % 12, new_pitch_class)
 
     return new_note
 end
@@ -120,6 +118,3 @@ const Major_2nd = Interval(1, Major)
 const Major_3rd = Interval(2, Major)
 const Major_3rd = Interval(2, Major)
 const Perfect_4th = Interval(3, Perfect)
-
-
-# add_interval(M.C4, Interval(2, Minor))
