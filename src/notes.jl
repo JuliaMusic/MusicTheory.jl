@@ -2,7 +2,7 @@
 # mappings from note names to semitones:
 const note_names = [:C, :D, :E, :F, :G, :A, :B]
 const note_semitones = Dict(:C => 0, :D => 2, :E => 4, :F => 5, :G => 7, :A => 9, :B => 11)
-const note_to_tone = Dict(v => k for (k, v) in enumerate(note_names))
+const note_to_tone = Dict(v => k - 1 for (k, v) in enumerate(note_names))
 
 ## Accidentals
 @enum Accidental 𝄫 ♭ ♮ ♯ 𝄪
