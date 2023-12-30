@@ -41,6 +41,8 @@ Base.show(io::IO, pitch::Pitch) =
 
 Base.getindex(class::PitchClass, i::Int) = Pitch(class, i)
 
+accidental(class::PitchClass) = class.accidental
+accidental(pitch::Pitch) = accidental(pitch.class)
 
 octave(pitch::Pitch) = pitch.octave
 
