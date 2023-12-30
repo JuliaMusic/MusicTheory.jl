@@ -52,7 +52,7 @@ function interval(n1::Pitch, n2::Pitch)
         n1, n2 = n2, n1
     end
 
-    note_distance = Int(n2.class.classclass) - Int(n1.class.classclass)
+    note_distance = tone(n2) - tone(n1)
 
     octave_distance = 7 * (n2.octave - n1.octave)
 

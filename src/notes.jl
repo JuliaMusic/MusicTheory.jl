@@ -47,7 +47,7 @@ accidental(pitch::Pitch) = accidental(pitch.class)
 octave(pitch::Pitch) = pitch.octave
 
 tone(note::Symbol) = note_to_tone[note]
-tone(note::PitchClass) = tone(note.classclass)
+tone(note::PitchClass) = tone(note.name)
 tone(pitch::Pitch) = tone(pitch.class) + 7 * pitch.octave
 
 
@@ -55,7 +55,7 @@ tone(pitch::Pitch) = tone(pitch.class) + 7 * pitch.octave
 semitone(accidental::Accidental) = accidental_semitones[accidental]
 semitone(note::Symbol) = note_semitones[note]
 
-semitone(note::PitchClass) = semitone(note.classclass) + semitone(note.accidental)
+semitone(note::PitchClass) = semitone(note.name) + semitone(note.accidental)
 
 "Treats C0 as semitone 0"
 semitone(pitch::Pitch) = semitone(pitch.class) + 12 * pitch.octave
