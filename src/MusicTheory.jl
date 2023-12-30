@@ -1,9 +1,8 @@
 module MusicTheory
 
-export Pitch, PitchClass, Accidental, NoteNames,
-    𝄫, ♭, ♮, ♯, 𝄪, C, D, E, F, G, A, B, C♮, D♮, E♮, F♮, G♮, A♮, B♮, C♯, D♯, E♯, F♯, G♯, A♯,
-    B♯, C♭, D♭, E♭, F♭, G♭, A♭, B♭, C𝄫, D𝄫, E𝄫, F𝄫, G𝄫, A𝄫, B𝄫, C𝄪, D𝄪, E𝄪, F𝄪, G,
-    note_names
+export Pitch, PitchClass, Accidental, NoteNames
+export ♮, ♯, ♭, 𝄪, 𝄫
+export accidental, octave
 
 export Interval, IntervalType, Major, Minor, Perfect, Augmented, Diminished,
     add_interval, tone, semitone, interval
