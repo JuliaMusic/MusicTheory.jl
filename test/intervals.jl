@@ -18,3 +18,16 @@ end
     @test C[4] + Interval(2, Major) == D[4]
     @test B[4] + Interval(2, Major) == C♯[5]
 end
+
+@testset "Sum of intervals" begin
+    @test Interval(3, Major) + Interval(3, Minor) == Interval(5, Perfect)
+    @test Interval(3, Major) + Interval(3, Major) == Interval(5, Augmented)
+    @test Interval(3, Major) + Interval(4, Diminished) == Interval(6, Minor)
+    @test Interval(4, Perfect) + Interval(5, Perfect) == Interval(8, Perfect)
+
+    major_scale = let M = Major_2nd, m = Minor_2nd
+        [M, M, m, M, M, M, m]
+    end
+
+    @test sum(major_scale) == Interval(8, Perfect)
+end

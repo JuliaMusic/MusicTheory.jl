@@ -112,6 +112,15 @@ function Base.:+(p::Pitch, interval::Interval)
 end
 
 
+function Base.:+(i1::Interval, i2::Interval)
+    bottom = C[4]
+    top = bottom + i1 + i2
+
+    return Interval(bottom, top)
+end
+
+
+
 const Minor_2nd = Interval(2, Minor)
 const Major_2nd = Interval(2, Major)
 

@@ -1,10 +1,18 @@
-# Represents a musical scale
-# I.e. an object that repeats each octave
+"""
+    struct Scale{T<:Union{PitchClass, Pitch}}
+
+A musical scale divides up an octave.
+A scale is represented as an iterator.
+"""
 struct Scale{T<:Union{PitchClass, Pitch}}
     tonic::T
     steps::Dict{PitchClass, Interval}
 
     function Scale(tonic::T, steps::Vector{Interval}) where {T}
+
+        # steps must add up to an octave:
+        @assert sum(steps) == Interval(8, Perfect)
+
         steps_dict = Dict{PitchClass, Interval}()
 
         current = tonic
