@@ -2,31 +2,30 @@
 
 @enum IntervalQuality Perfect Augmented Diminished Major Minor
 
-# distance is 0 for unison, 1 for second, etc.
-# so is 7 for octave, 8 for ninth, etc.
+# number is 1 for unison, 2 for second, etc.
 struct Interval
-    distance::Int
+    number::Int
     quality::IntervalQuality
 end
 
 # interval(distance, quality) = Interval(distance - 1, quality)
 
-function interval_name(distance::Int)
-    if distance == 0
+function interval_name(number::Int)
+    if number == 1
         return "unison"
-    elseif distance == 1
+    elseif number == 2
         return "2nd"
-    elseif distance == 2
+    elseif number == 3
         return "3rd"
-    elseif distance == 7
+    elseif number == 8
         return "octave"
     else
-        return string(distance + 1, "th")
+        return string(number, "th")
     end
 end
 
 Base.show(io::IO, interval::Interval) =
-    print(io, interval.quality, " ", interval_name(interval.distance))
+    print(io, interval.quality, " ", interval_name(interval.number))
 
 
 interval_semitones =
@@ -41,7 +40,9 @@ interval_quality_semitones = Dict(
 )
 
 semitone(interval::Interval) =
-    interval_semitones[interval.distance] + interval_quality_semitones[interval.quality]
+    interval_semitones[interval.number - 1] + interval_quality_semitones[interval.quality]
+
+tone(interval::Interval) = interval.number - 1  # distance
 
 
 # interval between two pitches:
@@ -58,8 +59,10 @@ function Interval(n1::Pitch, n2::Pitch)
 
     semitone_distance = (semitone(n2) - semitone(n1)) % 12
 
-    base_interval_semitone = interval_semitones[total_note_distance %7]
+    base_interval_semitone = interval_semitones[total_note_distance % 7]
     alteration_distance = semitone_distance - base_interval_semitone
+
+    total_note_distance += 1
 
     if abs(note_distance) + 1 ∈ (1, 4, 5)
         if alteration_distance == 0
@@ -82,9 +85,8 @@ function Interval(n1::Pitch, n2::Pitch)
     end
 end
 
-Interval( (n1, n2) ) = interval(n1, n2)
+Interval( (n1, n2) ) = Interval(n1, n2)
 
-tone(interval::Interval) = interval.distance
 
 function Base.:+(n::PitchClass, interval::Interval)
     new_tone = (tone(n) + tone(interval)) % 7
@@ -110,9 +112,9 @@ function Base.:+(p::Pitch, interval::Interval)
 end
 
 
-const Minor_2nd = Interval(1, Minor)
-const Major_2nd = Interval(1, Major)
+const Minor_2nd = Interval(2, Minor)
+const Major_2nd = Interval(2, Major)
 
-const Major_3rd = Interval(2, Major)
-const Major_3rd = Interval(2, Major)
-const Perfect_4th = Interval(3, Perfect)
+const Major_3rd = Interval(3, Major)
+const Major_3rd = Interval(3, Major)
+const Perfect_4th = Interval(4, Perfect)

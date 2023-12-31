@@ -47,7 +47,7 @@ const melodic_minor_scale = let M = Major_2nd, m = Minor_2nd
 end
 
 const harmonic_minor_scale = let M = Major_2nd, m = Minor_2nd
-    [M, m, M, M, m, Interval(1, Augmented), m]
+    [M, m, M, M, m, Interval(2, Augmented), m]
 end
 
 
