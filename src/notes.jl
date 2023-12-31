@@ -83,23 +83,7 @@ Base.isless(n1::PitchClass, n2::PitchClass) = semitone(n1) < semitone(n2)
 Base.isless(n1::Pitch, n2::Pitch) = semitone(n1) < semitone(n2)
 
 
-
-
 # define Julia objects for pitch classes:
-
-module NoteNames
-
-using MusicTheory
-using MusicTheory: note_names
-
-export
-    C, D, E, F, G, A, B,
-    C♮, D♮, E♮, F♮, G♮, A♮, B♮,
-    C♯, D♯, E♯, F♯, G♯, A♯, B♯,
-    C♭, D♭, E♭, F♭, G♭, A♭, B♭,
-    C𝄫, D𝄫, E𝄫, F𝄫, G𝄫, A𝄫, B𝄫,
-    C𝄪, D𝄪, E𝄪, F𝄪, G𝄪, A𝄪, B𝄪,
-    middle_C
 
 for name in note_names, accidental in instances(Accidental)
     note = Symbol(name, accidental)
@@ -111,7 +95,3 @@ for name in note_names, accidental in instances(Accidental)
     end
 end
 
-const middle_C = C[4]
-
-
-end
