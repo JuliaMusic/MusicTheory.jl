@@ -2,7 +2,7 @@
 # mappings from note names to semitones:
 const note_names = [:C, :D, :E, :F, :G, :A, :B]
 const note_semitones = Dict(:C => 0, :D => 2, :E => 4, :F => 5, :G => 7, :A => 9, :B => 11)
-const note_to_tone = Dict(v => k for (k, v) in enumerate(note_names))
+const note_to_tone = Dict(v => k - 1 for (k, v) in enumerate(note_names))
 
 ## Accidentals
 @enum Accidental 𝄫 ♭ ♮ ♯ 𝄪
@@ -47,7 +47,7 @@ accidental(pitch::Pitch) = accidental(pitch.class)
 octave(pitch::Pitch) = pitch.octave
 
 tone(note::Symbol) = note_to_tone[note]
-tone(note::PitchClass) = tone(note.classclass)
+tone(note::PitchClass) = tone(note.name)
 tone(pitch::Pitch) = tone(pitch.class) + 7 * pitch.octave
 
 
@@ -55,7 +55,7 @@ tone(pitch::Pitch) = tone(pitch.class) + 7 * pitch.octave
 semitone(accidental::Accidental) = accidental_semitones[accidental]
 semitone(note::Symbol) = note_semitones[note]
 
-semitone(note::PitchClass) = semitone(note.classclass) + semitone(note.accidental)
+semitone(note::PitchClass) = semitone(note.name) + semitone(note.accidental)
 
 "Treats C0 as semitone 0"
 semitone(pitch::Pitch) = semitone(pitch.class) + 12 * pitch.octave
@@ -63,8 +63,8 @@ semitone(pitch::Pitch) = semitone(pitch.class) + 12 * pitch.octave
 PitchClass(pitch::Pitch) = pitch.class
 
 
-function find_accidental(which_semitone, noteclass)
-    basic_semitone = semitone(noteclass)
+function find_accidental(which_semitone, pitch_class)
+    basic_semitone = semitone(pitch_class)
 
     distance = which_semitone - basic_semitone
     if abs(distance) > 2
@@ -73,7 +73,7 @@ function find_accidental(which_semitone, noteclass)
 
     accidental = semitone_to_accidental[distance]
 
-    return PitchClass(noteclass, accidental)
+    return PitchClass(pitch_class, accidental)
 end
 
 PitchClass(n::PitchClass) = n
