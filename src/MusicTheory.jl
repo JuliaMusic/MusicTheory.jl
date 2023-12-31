@@ -13,9 +13,11 @@ export Major_2nd, Minor_2nd, Major_3rd, Minor_3rd, Perfect_4th, Perfect_5th,
 export Scale
 export major_scale, natural_minor_scale, melodic_minor_scale, harmonic_minor_scale
 
+export Chord
 
 
 include("notes.jl")
 include("intervals.jl")
 include("scales.jl")
+include("chords.jl")
 end

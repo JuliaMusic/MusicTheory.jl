@@ -79,7 +79,7 @@ end
 PitchClass(n::PitchClass) = n
 
 
-
+Base.isless(n1::PitchClass, n2::PitchClass) = semitone(n1) < semitone(n2)
 Base.isless(n1::Pitch, n2::Pitch) = semitone(n1) < semitone(n2)
 
 
