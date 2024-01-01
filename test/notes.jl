@@ -1,4 +1,4 @@
-using MusicTheory.NoteNames
+using MusicTheory.PitchNames
 
 @testset "Notes" begin
     note = C[4]

@@ -7,7 +7,7 @@
 end
 
 @testset "Triads with names" begin
-    using MusicTheory.AllNoteNames
+    using MusicTheory.AllPitchNames
 
     @test is_triad(C4, E5, A8)
 end

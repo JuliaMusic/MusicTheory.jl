@@ -1,6 +1,6 @@
 module MusicTheory
 
-export Pitch, PitchClass, Accidental, NoteNames
+export Pitch, PitchClass, Accidental, PitchNames
 export ♮, ♯, ♭, 𝄪, 𝄫
 export accidental, octave
 
@@ -18,8 +18,8 @@ export Chord
 export make_triad, is_triad
 
 
-include("notes.jl")
-include("note_names.jl")
+include("pitches.jl")
+include("pitch_names.jl")
 include("intervals.jl")
 include("scales.jl")
 include("chords.jl")
