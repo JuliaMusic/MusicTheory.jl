@@ -18,7 +18,7 @@ end
 
 # default is natural:
 PitchClass(name::Symbol) = PitchClass(name, ♮)
-# Base.convert(::Type{PitchClass}, noteclass::NoteNames) = PitchClass(noteclass, ♮)
+# Base.convert(::Type{PitchClass}, noteclass::PitchNames) = PitchClass(noteclass, ♮)
 
 subscript(i::Int) = '₀' + i
 

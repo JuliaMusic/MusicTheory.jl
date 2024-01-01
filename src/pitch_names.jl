@@ -1,5 +1,5 @@
 
-module NoteNames
+module PitchNames
 
 using MusicTheory:
     C, D, E, F, G, A, B,
@@ -23,11 +23,11 @@ const middle_C = C[4]
 end
 
 
-module AllNoteNames
+module AllPitchNames
 
 using MusicTheory: note_names, Pitch, PitchClass, Accidental
 
-using MusicTheory.NoteNames
+using MusicTheory.PitchNames
 
 for note in note_names, octave in 0:9
     name = Symbol(note, octave)
