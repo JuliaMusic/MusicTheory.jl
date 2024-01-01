@@ -1,9 +1,18 @@
-using MusicTheory.PitchNames
+@testset "Notes with durations" begin
 
-@testset "Notes" begin
-    note = C[4]
+    using MusicTheory.PitchNames
 
-    @test PitchClass(note) == C
-    @test accidental(note) == ♮
-    @test octave(note) == 4
+    n = C[4] / 8
+    @test n isa Note
+    @test n.pitch == C[4]
+    @test n.duration == 1 // 8
+
+    n = B[5] * 3 // 8
+    @test n.pitch == B[5]
+    @test n.duration == 3 // 8
+
+    n = rest / 4
+    @test n isa Note
+    @test n.pitch == rest
+    @test n.duration == 1 // 4
 end

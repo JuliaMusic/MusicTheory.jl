@@ -17,6 +17,8 @@ export Chord
 
 export make_triad, is_triad
 
+export Note, rest
+
 
 include("pitches.jl")
 include("pitch_names.jl")
@@ -24,4 +26,5 @@ include("intervals.jl")
 include("scales.jl")
 include("chords.jl")
 include("triads.jl")
+include("notes.jl")
 end
