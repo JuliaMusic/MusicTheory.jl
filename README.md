@@ -103,6 +103,14 @@ julia> result = unique(combinations)
  (Major 2nd, Major 3rd, Major 3rd)
 ```
 
+## TODO
+- Play the notes
+- Print the notes in standard notation, e.g. via an interface to Lilypond
+- Interfaces with other packages
+
 ## Author
+
+I tried not to look at other packages, either in Julia or in other languages, while writing this.
+Apologies for any duplication.
 
 Copyright David P. Sanders, 2024
