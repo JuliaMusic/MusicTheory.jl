@@ -5,12 +5,13 @@
 The goal of this package is to provide a Julian interface for representing
 the objects and structures in ("Western") music theory (based on semitones).
 
-## Contents
+## Contents of the package
 - Pitches with scientific notation, e.g. C4 for middle C
 - Intervals
 - Scales
 - Notes and rests with durations
-- Chords
+- Chords 
+- Triads
 
 ## Pitches
 Pitch names are exported in the `MusicTheory.PitchNames` submodule.
@@ -36,6 +37,9 @@ The `Interval` type computes the interval between two pitches:
 ```jl
 julia> Interval(C[4], E[4])
 Major 3rd
+
+julia> C[4] + Interval(3, Major)
+E₄
 ```
 
 ## Scales
