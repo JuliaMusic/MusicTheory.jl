@@ -112,6 +112,14 @@ julia> result = unique(combinations)
 - Print the notes in standard notation, e.g. via an interface to Lilypond
 - Interfaces with other packages
 
+## Related packages
+- [music21](https://web.mit.edu/music21/) (Python)
+- [abjad](https://abjad.github.io/) (Python)
+- [Haskore](https://wiki.haskell.org/Haskore) (Haskell)
+- [Euterpea](https://www.euterpea.com/) (Haskell)
+- [Supercollider](https://supercollider.github.io/)
+- List of music packages on GitHub: https://github.com/topics/music-theory
+
 ## Author
 
 I tried not to look at other packages, either in Julia or in other languages, while writing this.
