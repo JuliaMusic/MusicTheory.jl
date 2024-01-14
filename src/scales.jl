@@ -6,6 +6,7 @@ A scale is represented as an iterator.
 """
 struct Scale{T<:Union{PitchClass, Pitch}}
     tonic::T
+    notes::Vector{T}
     steps::Dict{PitchClass, Interval}
 
     function Scale(tonic::T, steps::Vector{Interval}) where {T}
@@ -16,12 +17,15 @@ struct Scale{T<:Union{PitchClass, Pitch}}
         steps_dict = Dict{PitchClass, Interval}()
 
         current = tonic
+        notes = T[]
+
         for step in steps
+            push!(notes, current)
             steps_dict[PitchClass(current)] = step
             current += step
         end
 
-        return new{T}(tonic, steps_dict)
+        return new{T}(tonic, notes, steps_dict)
     end
 end
 
@@ -40,6 +44,19 @@ end
 Base.IteratorSize(::Type{Scale{T}}) where {T} = Base.IsInfinite()
 Base.IteratorEltype(::Type{Scale{T}}) where {T} = Base.HasEltype()
 Base.eltype(::Type{Scale{T}}) where {T} = T
+
+
+function Base.getindex(s::Scale{Pitch}, n::Int)
+
+    octave = n ÷ length(s.notes)
+    n = n % length(s.notes)
+    if n < 0
+        n += length(s.notes)
+        octave -= 1
+    end
+
+    return Pitch(PitchClass(s.notes[n + 1]), s.notes[n + 1].octave + octave)
+end
 
 
 const major_scale = let M = Major_2nd, m = Minor_2nd
