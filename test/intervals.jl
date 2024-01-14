@@ -17,6 +17,10 @@ end
 
     @test C[4] + Interval(2, Major) == D[4]
     @test B[4] + Interval(2, Major) == C♯[5]
+
+    @test C[4] + Interval(8, Perfect) == C[5]
+    @test C[4] + Interval(10, Minor) == E♭[5]
+    @test C[4] + Interval(15, Perfect) == C[6]
 end
 
 @testset "Sum of intervals" begin

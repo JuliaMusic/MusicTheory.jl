@@ -89,12 +89,16 @@ Interval( (n1, n2) ) = Interval(n1, n2)
 
 
 function Base.:+(n::PitchClass, interval::Interval)
+
+    octave = (interval.number - 1) ÷ 7
+    reduced_interval = (interval.number - 1) % 7
+    interval = Interval(reduced_interval + 1, interval.quality)
+
     new_tone = (tone(n) + tone(interval)) % 7
 
     new_pitch_class = note_names[new_tone + 1]
-    new_octave = new_tone ÷ 7
 
-    new_semitone = semitone(n) + semitone(interval)
+    new_semitone = semitone(n) + semitone(interval) + 12 * octave
     new_note = find_accidental(new_semitone % 12, new_pitch_class)
 
     return new_note
