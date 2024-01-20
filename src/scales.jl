@@ -48,14 +48,22 @@ Base.eltype(::Type{Scale{T}}) where {T} = T
 
 function Base.getindex(s::Scale{Pitch}, n::Int)
 
-    octave = n ÷ length(s.notes)
-    n = n % length(s.notes)
+    if n == 0
+        error("Scale indices start at 1 or must be negative")
+    end
+
+    if n < 1
+        n += 2  # offset so that scale[-2] means "go down by a second from the tonic"
+    end
+
+    octave = fld1(n, length(s.notes)) - 1 
+    n = mod1(n, length(s.notes))
     if n < 0
         n += length(s.notes)
         octave -= 1
     end
 
-    return Pitch(PitchClass(s.notes[n + 1]), s.notes[n + 1].octave + octave)
+    return Pitch(PitchClass(s.notes[n]), s.notes[n].octave + octave)
 end
 
 
