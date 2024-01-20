@@ -72,7 +72,7 @@ const major_scale = let M = Major_2nd, m = Minor_2nd
 end
 
 const natural_minor_scale = let M = Major_2nd, m = Minor_2nd
-    [M, m, M, M, M, m, M]
+    [M, m, M, M, m, M, M]
 end
 
 const melodic_minor_scale = let M = Major_2nd, m = Minor_2nd
