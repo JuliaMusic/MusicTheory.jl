@@ -27,4 +27,5 @@ include("scales.jl")
 include("chords.jl")
 include("triads.jl")
 include("notes.jl")
+include("equal_temperament.jl")
 end
