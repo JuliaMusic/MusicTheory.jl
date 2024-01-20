@@ -56,7 +56,7 @@ function Base.getindex(s::Scale{Pitch}, n::Int)
         n += 2  # offset so that scale[-2] means "go down by a second from the tonic"
     end
 
-    octave = fld1(n, length(s.notes)) - 1 
+    octave = fld1(n, length(s.notes)) - 1
     n = mod1(n, length(s.notes))
     if n < 0
         n += length(s.notes)
