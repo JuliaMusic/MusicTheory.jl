@@ -19,6 +19,8 @@ export make_triad, is_triad
 
 export Note, rest
 
+export Temperament, EqualTemperament, JustIntonation, Pythagorean, frequency
+
 
 include("pitches.jl")
 include("pitch_names.jl")
@@ -28,4 +30,6 @@ include("chords.jl")
 include("triads.jl")
 include("notes.jl")
 include("equal_temperament.jl")
+include("just_intonation.jl")
+include("pythagorean.jl")
 end

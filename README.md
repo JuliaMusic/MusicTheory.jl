@@ -12,6 +12,7 @@ the objects and structures in ("Western") music theory (based on semitones).
 - Notes and rests with durations
 - Chords 
 - Triads
+- Temperaments (tuning systems mapping pitches to frequencies)
 
 ## Pitches
 Pitch names are exported in the `MusicTheory.PitchNames` submodule.
@@ -106,6 +107,34 @@ julia> result = unique(combinations)
  (Minor 2nd, Minor 3rd, Major 3rd)
  (Major 2nd, Major 3rd, Major 3rd)
 ```
+
+## Temperaments
+A *temperament* is a tuning system that assigns a frequency (in Hz) to each
+`Pitch`. `frequency(temperament, pitch)` does the conversion.
+
+`EqualTemperament` divides the octave into 12 equal ratios, anchoring one pitch
+to a chosen frequency:
+```jl
+julia> et = EqualTemperament(A[4], 440);
+
+julia> frequency(et, C[4])
+261.6255653005986
+```
+
+`JustIntonation` and `Pythagorean` tune each scale degree to a pure
+whole-number ratio above a tonic, so intervals such as the perfect fifth are
+acoustically beat-free:
+```jl
+julia> ji = JustIntonation(C);
+
+julia> frequency(ji, G[4]) / frequency(ji, C[4])   # a pure 3/2 fifth
+1.5
+
+julia> frequency(ji, E[4]) / frequency(ji, C[4])   # a pure 5/4 major third
+1.25
+```
+The tonic is anchored to its equal-tempered frequency, so a just C scale starts
+on the same C as the equal-tempered one and only the intervals in between differ.
 
 ## TODO
 - Play the notes
